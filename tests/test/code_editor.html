@@ -1,0 +1,72 @@
+<html>
+
+<head>
+<style>
+body{
+	background-color:#eee;
+}
+</style>
+<link rel="stylesheet" href="codemirror.css">
+<link rel="stylesheet" href="themes/monokai.css">
+<link rel="stylesheet" href="addon/show-hint.css">
+<link rel="stylesheet" href="addon/fullscreen.css">
+
+
+</head>
+
+
+<body>
+	<div id = "code">
+		<form><textarea id="codeEdit" name="codeEdit" placeholder="Code goes here..."></textarea></form>
+	</div>
+
+	<script src="codemirror.js"></script>
+	<script src="mode/javascript/javascript.js"></script>
+	<script type="text/javascript" src="mode/c/clike.js"></script>
+	<script type="text/javascript" src="mode/python/python.js"></script>
+	<script type="text/javascript" src="addon/anyword-hint.js"></script>
+	<script type="text/javascript" src="addon/show-hint.js"></script>
+	<script type="text/javascript" src="addon/fullscreen.js"></script>
+	<script type="text/javascript" src="addon/placeholder.js"></script>
+	<script type="text/javascript" src="keymap/sublime.js"></script>
+	
+	<script type = "text/javascript">
+	var value = "// The bindings defined specifically in the Sublime Text mode\nvar bindings = {\n";
+  var map = CodeMirror.keyMap.sublime;
+  for (var key in map) {
+    var val = map[key];
+    if (key != "fallthrough" && val != "..." && (!/find/.test(val) || /findUnder/.test(val)))
+      value += "  \"" + key + "\": \"" + val + "\",\n";
+  }
+  value += "}\n\n// The implementation of joinLines\n";
+  value += CodeMirror.commands.joinLines.toString().replace(/^function\s*\(/, "function joinLines(").replace(/\n  /g, "\n") + "\n";
+		var editor = CodeMirror.fromTextArea(document.getElementById("codeEdit"),{
+			mode : "python",
+			theme : "monokai",
+			keyMap: 'sublime',
+			value: value,
+			autoCloseBrackets: true,
+			matchBrackets: true,
+			showCursorWhenSelecting: true,
+			smartIndent : true,
+			tabSize : 2,
+			lineNumbers : true,
+			readOnly : false,
+			extraKeys : {
+				"Ctrl-Space" : "autocomplete",
+				"F11": function(cm) {
+					cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+				},
+				"Esc": function(cm) {
+					if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+				}
+			},
+		});
+	
+		editor.setSize(500, 300);
+		editor.getOption("fullScreen")
+		editor.setOption("fullScreen", false)
+	</script>
+</body>
+
+</html>

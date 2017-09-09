@@ -1,0 +1,107 @@
+<!--doctype HTML-->
+{% load staticfiles %}
+<html>
+
+<head>
+<title>{% block head %}My Postroom{% endblock head %}</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<link rel = 'stylesheet' href = '{% static "/css/base.css" %}'>
+
+<!-- codemirror -->
+<link rel = 'stylesheet' href = '{% static "/css/codemirror/codemirror.css" %}'>
+<link rel = 'stylesheet' href = '{% static "/css/codemirror/addon/fullscreen.css" %}'>
+<link rel = 'stylesheet' href = '{% static "/css/codemirror/addon/show-hint.css" %}'>
+<link rel = 'stylesheet' href = '{% static "/css/codemirror/themes/monokai.css" %}'>
+<!-- <link rel = 'stylesheet' href = '{% static "/css/codemirror/themes/eclipse.css" %}'>
+<link rel = 'stylesheet' href = '{% static "/css/codemirror/themes/seti.css" %}'> -->
+
+
+{% block head_extra %}
+{% endblock head_extra %}
+
+<style>
+{% block style %} 
+.wmd-panel{
+	margin-left:0px !important;
+	margin-right:0px !important;
+
+}
+
+#id_content{
+	font-size:18px;
+	font-family : "Comic Sans MS", cursive, sans-serif;
+}
+.dateinput{
+	width:200px;
+	height:30px;
+
+}
+.textinput{
+	width:92%;
+}
+.wmd-button{
+	width:200px;
+}
+{% endblock style %}
+
+</style>
+</head>
+
+<body>
+<div id="fb-root"></div>
+
+
+{% include "messages_display.html" %}
+
+<div class = "container">
+{% block content %}
+{% endblock content %}
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+
+<script src='{% static "/js/codemirror/codemirror.js" %}'></script>
+<script src='{% static "/js/codemirror/addon/anyword-hint.js" %}'></script>
+<script src='{% static "/js/codemirror/addon/fullscreen.js" %}'></script>
+<script src='{% static "/js/codemirror/addon/placeholder.js" %}'></script>
+<script src='{% static "/js/codemirror/addon/show-hint.js" %}'></script>
+<script src='{% static "/js/codemirror/keymap/sublime.js" %}'></script>
+<script src='{% static "/js/codemirror/mode/clike.js" %}'></script>
+<script src='{% static "/js/codemirror/mode/javascript.js" %}'></script>
+<script src='{% static "/js/codemirror/mode/python.js" %}'></script>
+
+<script type = "text/javascript">
+	$(document).ready(function(){
+		$(".content_markdown").each(function(){
+			var content=$(this).text();
+			var markedContent=marked(content);
+			$(this).html(markedContent);
+		});
+		$(".post_detail_item img").each(function(){
+			$(this).addClass("img-responsive");
+		});
+		$( function() {
+		    $( ".dateinput" ).datepicker();
+		});
+	});
+{% block script_ab %}
+{% endblock script_ab %}
+</script>
+
+{% block script_code %}
+{% endblock script_code %}
+</body>
+</html>
+
+

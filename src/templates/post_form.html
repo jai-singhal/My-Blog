@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block head %}{{type}} Post{% endblock head %}
+{% block head_extra %}
+	{{ form.media }}
+{% endblock head_extra %}
+{% block content %}
+
+
+<style>
+body{
+}
+.headline{
+	font-weight: bold;
+}
+#preview_title{
+	font-weight: bold;
+	font-size:20px;
+}
+.text_edit{
+	font-size:18px;
+	font-family : "Comic Sans MS", cursive, sans-serif;
+}
+.btn{
+	width:90%;
+	margin-bottom:100px;
+}
+.modal-content{
+
+	width:350px;
+	height:300px;
+}
+
+</style>
+
+<div class="row">
+	<div class = "col-md-6">
+		<h1 class = "headline">{{type}} a Post</h1><hr/>
+		<form method = 'POST' action= '' enctype = "multipart/form-data">{% csrf_token %}
+		{{form|crispy}}
+		<!-- <button type="button" class="btn btn-primar" data-toggle="modal" data-target="#myModal">Launch Text Editor</button>
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        
+    <div id = "code">
+		<form><textarea autofocus id="code_editor" name="codeEdit" placeholder="Code goes here..."></textarea></form>
+	</div>
+
+   </div>
+   </div>
+ </div> -->
+
+<input type = "submit" class = "btn btn-success" value 	= "{{type}} Post" />
+</form>
+
+	</div>
+
+	<div class="col-md-6">
+		<h1>Preview</h1><hr/>
+		<div class = "content-preview ">
+			<h3 id = "preview_title" class = "text_edit"></h3><hr>
+			<p id = "preview_content" class = "text_edit"></p>
+
+		</div>
+	</div>
+
+</div>
+
+
+{% endblock content %}
+
+{% block script_ab %}
+$(document).ready(function(){
+	function setTitle(value){
+			var title_item = marked(value);
+			$("#preview_title").html(title_item);
+		}
+
+		function setContent(value){
+			var content_item = marked(value);
+			$("#preview_content").html(content_item)
+			$("#preview_content img").each(function(){
+				$(this).addClass("img-responsive");
+			});
+		}
+
+		var titleInput = $("#id_title");
+		setTitle(titleInput.val());
+		titleInput.keyup(function(){
+			var newTitle = $(this).val();
+			console.log(newTitle)
+			setTitle(newTitle);
+		});
+
+		var contentInput = $("#id_content");
+		setContent(contentInput.val());
+		
+		contentInput.keyup(function(){
+			var newContent = $(this).val();
+			console.log(newContent)
+			setContent(newContent);
+		});
+	});
+
+{% endblock script_ab %}
+<!-- 
+{% block script_code %}
+<script type = "text/javascript">
+	var value = "// The bindings defined specifically in the Sublime Text mode\nvar bindings = {\n";
+  var map = CodeMirror.keyMap.sublime;
+  for (var key in map) {
+    var val = map[key];
+    if (key != "fallthrough" && val != "..." && (!/find/.test(val) || /findUnder/.test(val)))
+      value += "  \"" + key + "\": \"" + val + "\",\n";
+  }
+  value += "}\n\n// The implementation of joinLines\n";
+  value += CodeMirror.commands.joinLines.toString().replace(/^function\s*\(/, "function joinLines(").replace(/\n  /g, "\n") + "\n";
+		var editor = CodeMirror.fromTextArea(document.getElementById("code_editor"),{
+			mode : "python",
+			theme : "monokai",
+			keyMap: 'sublime',
+			autofocus: true,
+			value: value,
+			autoCloseBrackets: true,
+			matchBrackets: true,
+			showCursorWhenSelecting: true,
+			smartIndent : true,
+			tabSize : 2,
+			lineNumbers : true,
+			readOnly : false,
+			extraKeys : {
+				"Ctrl-Space" : "autocomplete",
+				"F11": function(cm) {
+					cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+				},
+				"Esc": function(cm) {
+					if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+				}
+			},
+		});
+	
+		editor.setSize(570, 300);
+		editor.getOption("fullScreen")
+		editor.setOption("fullScreen", true)
+	</script>
+{% endblock script_code %} -->

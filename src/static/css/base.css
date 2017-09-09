@@ -1,0 +1,19 @@
+.wmd-panel{
+	margin-left:0px !important;
+	margin-right:0px !important;
+
+}
+
+#id_content{
+	font-size:18px;
+	font-family : "Comic Sans MS", cursive, sans-serif;
+}
+.dateinput{
+	width:200px;
+	height:30px;
+
+}
+
+.textinput{
+	width:92%;
+}
